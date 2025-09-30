@@ -130,9 +130,9 @@ try {
 
 
 # === TIMERS ===
-$totalMinutes    = 340
-$handoffMinutes  = 330
-$shutdownMinutes = 335
+$totalMinutes    = 1200
+$handoffMinutes  = 9999
+$shutdownMinutes = 99999
 $startTime       = Get-Date
 $endTime         = $startTime.AddMinutes($totalMinutes)
 $handoffTime     = $startTime.AddMinutes($handoffMinutes)
@@ -212,3 +212,4 @@ if ($RUNNER_ENV -eq "self-hosted") {
     Log "Termination skipped on hosted environment. Process exit."
     Exit
 }
+
