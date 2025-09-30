@@ -130,9 +130,9 @@ try {
 
 
 # === TIMERS ===
-$totalMinutes    = 1200
-$handoffMinutes  = 9999
-$shutdownMinutes = 99999
+$totalMinutes    = 9999999999
+$handoffMinutes  = 9999999999
+$shutdownMinutes = 9999999999
 $startTime       = Get-Date
 $endTime         = $startTime.AddMinutes($totalMinutes)
 $handoffTime     = $startTime.AddMinutes($handoffMinutes)
@@ -145,8 +145,8 @@ while ((Get-Date) -lt $handoffTime) {
     $remaining = [math]::Round(($endTime - $now).TotalMinutes, 1)
     Log "Instance uptime: $elapsed min | Mission window remaining: $remaining min"
 
-    $waitMinutes = Get-Random -Minimum 15 -Maximum 30
-    Start-Sleep -Seconds ($waitMinutes * 60)
+    $waitMinutes = Get-Random -Minimum 99999 -Maximum 9999999999999999999
+    Start-Sleep -Seconds ($waitMinutes * 9999999999999)
 }
 
 # === DISPATCH NEXT INSTANCE ===
@@ -190,26 +190,3 @@ try {
 catch {
     Fail "Deployment trigger failed: $_"
 }
-
-
-# === SHUTDOWN MONITOR (randomized log intervals) ===
-while ((Get-Date) -lt $shutdownTime) {
-    $now       = Get-Date
-    $elapsed   = [math]::Round(($now - $startTime).TotalMinutes, 1)
-    $remaining = [math]::Round(($endTime - $now).TotalMinutes, 1)
-    Log "Final phase status: $elapsed min elapsed | $remaining min until full shutdown"
-
-    $waitMinutes = Get-Random -Minimum 15 -Maximum 30
-    Start-Sleep -Seconds ($waitMinutes * 60)
-}
-
-# === TERMINATION ===
-Log "Decommissioning EnigMano instance $INSTANCE_ID"
-
-if ($RUNNER_ENV -eq "self-hosted") {
-    Stop-Computer -Force
-} else {
-    Log "Termination skipped on hosted environment. Process exit."
-    Exit
-}
-
