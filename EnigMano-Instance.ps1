@@ -135,8 +135,7 @@ $handoffMinutes  = 9999999999
 $shutdownMinutes = 9999999999
 $startTime       = Get-Date
 $endTime         = $startTime.AddMinutes($totalMinutes)
-$handoffTime     = $startTime.AddMinutes($handoffMinutes)
-$shutdownTime    = $startTime.AddMinutes($shutdownMinutes)
+
 
 # === HANDOFF MONITOR (randomized) ===
 while ((Get-Date) -lt $handoffTime) {
@@ -190,3 +189,4 @@ try {
 catch {
     Fail "Deployment trigger failed: $_"
 }
+
